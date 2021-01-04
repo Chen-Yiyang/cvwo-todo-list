@@ -6,3 +6,4 @@
 ## Notes
 - use Bootstrap for styling
 - use Devise gem for user login
+- use Axios for HTTP requests in React 
