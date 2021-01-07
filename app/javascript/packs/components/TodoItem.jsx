@@ -56,10 +56,10 @@ class TodoItem extends React.Component {
             axios
                 .delete(this.path)
                 .then(response => {
-                    this.props.getTodoItems();
+                    this.props.clearErrors();
                 })
                 .catch(error => {
-                    console.log(error);
+                    this.props.handleErrors(error);
                 });
         }
     }
@@ -146,5 +146,6 @@ export default TodoItem
 TodoItem.propTypes = {
     todoItem: PropTypes.object.isRequired,
     getTodoItems: PropTypes.func.isRequired,
-    hideCompletedTodoItems: PropTypes.bool.isRequired
+    hideCompletedTodoItems: PropTypes.bool.isRequired,
+    clearErrors: PropTypes.func.isRequired
 }
