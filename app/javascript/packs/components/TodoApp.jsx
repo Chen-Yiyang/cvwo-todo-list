@@ -14,11 +14,20 @@ class TodoApp extends React.Component {
 
         // hold todo items in state
         this.state = {
-            todoItems: []
+            todoItems: [],
+            hideCompletedTodoItems: false
         };
 
         this.getTodoItems = this.getTodoItems.bind(this);
         this.createTodoItem = this.createTodoItem.bind(this);
+
+        this.toggleCompletedTodoItems = this.toggleCompletedTodoItems.bind(this);
+    }
+
+    toggleCompletedTodoItems() {
+        this.setState({
+            hideCompletedTodoItems: !this.state.hideCompletedTodoItems
+        });
     }
 
     componentDidMount() {
@@ -49,12 +58,17 @@ class TodoApp extends React.Component {
         return (
             <>
                 <TodoForm createTodoItem={this.createTodoItem} />
-                <TodoItems>
+                <TodoItems
+                    toggleCompletedTodoItems={this.toggleCompletedTodoItems}
+                    hideCompletedTodoItems={this.state.hideCompletedTodoItems}
+                >
                     {this.state.todoItems.map(todoItem => (
                         <TodoItem
                             key={todoItem.id}
                             todoItem={todoItem}
                             getTodoItems={this.getTodoItems}
+
+                            hideCompletedTodoItems={this.state.hideCompletedTodoItems}
                         />
                     ))}
                 </TodoItems>
