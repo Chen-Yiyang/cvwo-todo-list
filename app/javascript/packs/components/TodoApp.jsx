@@ -12,9 +12,7 @@ class TodoApp extends React.Component {
     constructor(props) {
         super(props);
 
-
         // hold todo items in state
-
         this.state = {
             todoItems: []
         };
