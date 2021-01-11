@@ -10,3 +10,5 @@
 - use `Axios` for HTTP requests in React 
 - use `Lodash` for debouncing request in React
 
+Hosted using Heroku at: 
+`https://cvwo-todo-app.herokuapp.com`
