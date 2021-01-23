@@ -69,7 +69,13 @@ class TodoItem extends React.Component {
         return (
             <tr
                 className={
-                    `${ this.state.complete && this.props.hideCompletedTodoItems ? `d-none` : "" } 
+                    `${ ((this.state.complete && this.props.hideCompletedTodoItems)
+                            || (this.props.tagFilterEntry != ""
+                                    && this.props.filterByTag
+                                    && !todoItem.title.includes(this.props.tagFilterEntry)  // shld check tag text instead
+                                ))
+                        ? `d-none`
+                        : "" }
                     ${this.state.complete ? "table-light" : ""}`
                 }
             >
@@ -110,6 +116,14 @@ class TodoItem extends React.Component {
                         id={`todoItem__title-${todoItem.id}`}
                     />
                 </td>
+
+                <td>
+                    <input
+                        type="text"
+                        defaultValue={todoItem.title + " chore"}
+                    />
+                </td>
+
                 <td className="text-right">
                     <div className="form-check form-check-inline">
                         <input
@@ -146,6 +160,11 @@ export default TodoItem
 TodoItem.propTypes = {
     todoItem: PropTypes.object.isRequired,
     getTodoItems: PropTypes.func.isRequired,
+
     hideCompletedTodoItems: PropTypes.bool.isRequired,
+
+    tagFilterEntry: PropTypes.string.isRequired,
+    filterByTag: PropTypes.bool.isRequired,
+
     clearErrors: PropTypes.func.isRequired
 }
