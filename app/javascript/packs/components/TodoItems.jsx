@@ -39,12 +39,13 @@ class TodoItems extends React.Component {
                         : `Hide Completed Items `}
                 </button>
 
-                <div className="toggle-search-tag">
+                <div className="row">
                     <input className="tag-search-entry"
                         type="text"
                         defaultValue={this.props.tagFilterEntry}
                         onChange={this.tagUpdate}
                         ref = {this.inputRef}
+                        placeholder="Target tag(s) for filtering"
                     />
 
                     <button

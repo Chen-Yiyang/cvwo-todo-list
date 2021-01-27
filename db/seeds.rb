@@ -12,10 +12,13 @@
   ##  User.create(email: "user-#{i+1}@example.com", password: "password", password_confirmation: "password")
 end
 
-User.first.todo_items.create(title: "Puppy", complete: false)
+#User.first.todo_items.create(title: "Puppy", complete: false)
 
 User.all.each do |u|
   3.times do |i|
-    ## u.todo_items.create(title: "To Do Item #{i+1} for #{u.email}", complete: i % 3  == 0 ? true : false  )
+    u.todo_items.create(
+      title: "To Do Item #{i+1} for #{u.email}",
+      complete: i % 3  == 0 ? true : false,
+      tags: i % 2 == 0 ? "even" : "odd")
   end
 end

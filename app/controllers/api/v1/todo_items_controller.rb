@@ -74,7 +74,7 @@ class Api::V1::TodoItemsController < ApplicationController
   end
 
   def todo_item_params
-    params.require(:todo_item).permit(:title, :complete)
+    params.require(:todo_item).permit(:title, :complete, :tags)
   end
 
   def authorized?

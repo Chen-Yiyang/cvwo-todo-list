@@ -20,8 +20,9 @@ class TodoItem extends React.Component {
         // for update
         this.handleChange = this.handleChange.bind(this);
         this.updateTodoItem = this.updateTodoItem.bind(this);
-        this.inputRef = React.createRef();
+        this.titleRef = React.createRef();
         this.completedRef = React.createRef();
+        this.tagsRef = React.createRef();
 
     }
 
@@ -39,8 +40,9 @@ class TodoItem extends React.Component {
         axios
             .put(this.path, {
                 todo_item: {
-                    title: this.inputRef.current.value,
-                    complete: this.completedRef.current.checked
+                    title: this.titleRef.current.value,
+                    complete: this.completedRef.current.checked,
+                    tags: this.tagsRef.current.value
                 }
             })
             .then(response => {})
@@ -72,7 +74,7 @@ class TodoItem extends React.Component {
                     `${ ((this.state.complete && this.props.hideCompletedTodoItems)
                             || (this.props.tagFilterEntry != ""
                                     && this.props.filterByTag
-                                    && !todoItem.title.includes(this.props.tagFilterEntry)  // shld check tag text instead
+                                    && (todoItem.tags == null || !todoItem.tags.includes(this.props.tagFilterEntry))
                                 ))
                         ? `d-none`
                         : "" }
@@ -108,9 +110,9 @@ class TodoItem extends React.Component {
                         defaultValue={todoItem.title}
                         disabled={this.state.complete}
 
-                        // update todo details
+                        // update to-do details
                         onChange={this.handleChange}
-                        ref={this.inputRef}
+                        ref={this.titleRef}
 
                         className="form-control"
                         id={`todoItem__title-${todoItem.id}`}
@@ -120,7 +122,14 @@ class TodoItem extends React.Component {
                 <td>
                     <input
                         type="text"
-                        defaultValue={todoItem.title + " chore"}
+                        defaultValue={todoItem.tags}
+
+                        // update to-do tags
+                        onChange={this.handleChange}
+                        ref={this.tagsRef}
+
+                        /// a bit unsure here
+                        id={`todoItem__tags-${todoItem.id}`}
                     />
                 </td>
 

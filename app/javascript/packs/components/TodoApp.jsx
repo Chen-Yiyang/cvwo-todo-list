@@ -19,7 +19,7 @@ class TodoApp extends React.Component {
             hideCompletedTodoItems: false,
 
             filterByTag: false,
-            tagFilterEntry: "chore",
+            tagFilterEntry: "",
 
             errorMessage: null
         };
