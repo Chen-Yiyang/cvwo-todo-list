@@ -24,6 +24,46 @@ class TodoItem extends React.Component {
         this.completedRef = React.createRef();
         this.tagsRef = React.createRef();
 
+        this.checkDisplay = this.checkDisplay.bind(this);
+
+    }
+
+    checkDisplay(todoItem) {
+        // d-none for completed ?
+        if (this.state.complete && this.props.hideCompletedTodoItems) {
+            return false;
+        }
+
+        // d-none for filtered by tag?
+        // not filtered
+        if (this.props.tagFilterEntry == "" || !this.props.filterByTag) {
+            return true;
+        }
+
+        if (todoItem.tags == null) {
+            return false;
+        }
+
+        var tagsArr = todoItem.tags.split(" ");
+        var size = tagsArr.length;
+        for (var i = 0; i < size; i++) {
+            var tag = tagsArr[i];
+            console.log(tag + "\\" + todoItem.tags);
+            if (tag === this.props.tagFilterEntry) {
+                return true;
+            }
+        }
+
+        return false
+
+        /*((this.state.complete && this.props.hideCompletedTodoItems)
+            || (this.props.tagFilterEntry != ""
+                && this.props.filterByTag
+                && (todoItem.tags == null || !todoItem.tags.includes(this.props.tagFilterEntry))
+            ))
+
+         */
+
     }
 
     handleChange() {
@@ -71,13 +111,7 @@ class TodoItem extends React.Component {
         return (
             <tr
                 className={
-                    `${ ((this.state.complete && this.props.hideCompletedTodoItems)
-                            || (this.props.tagFilterEntry != ""
-                                    && this.props.filterByTag
-                                    && (todoItem.tags == null || !todoItem.tags.includes(this.props.tagFilterEntry))
-                                ))
-                        ? `d-none`
-                        : "" }
+                    `${ !this.checkDisplay(todoItem) ? `d-none` : "" }
                     ${this.state.complete ? "table-light" : ""}`
                 }
             >

@@ -50,8 +50,6 @@ class TodoApp extends React.Component {
     }
 
     tagUpdate(newEntry) {
-        console.log("You did it!!!")
-        console.log(newEntry)
         this.setState({
             tagFilterEntry: newEntry
         })
