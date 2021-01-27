@@ -103,7 +103,11 @@ class TodoItem extends React.Component {
                 .catch(error => {
                     this.props.handleErrors(error);
                 });
+
+            window.location.reload(false);
         }
+
+
     }
 
     render() {
