@@ -11,22 +11,34 @@ class TodoForm extends React.Component {
         super(props)
         this.handleSubmit = this.handleSubmit.bind(this)
 
+        this.state = {
+            tmpTitle : "",
+            tmpTags : "",
+        }
+    }
 
+    handleTitleInput = (e) => {
+        this.setState( {
+            tmpTitle : e.target.value
+        });
+    }
+
+    handleTagsInput = (e) => {
+        this.setState({
+            tmpTags : e.target.value
+        })
     }
 
     handleSubmit(e) {
         e.preventDefault()
         setAxiosHeaders()
 
-        console.log(this.tagsRef.current.value)
-        console.log(this.tagsRef.current.value)
-
         axios
             .post('/api/v1/todo_items', {
                 todo_item: {
-                    title: e.target.title,
+                    title: this.state.tmpTitle,
                     complete: false,
-                    tags: this.tagsRef.current.value
+                    tags: this.state.tmpTags
                 },
             })
             .then(response => {
@@ -43,6 +55,7 @@ class TodoForm extends React.Component {
 
 
         // copied, to be deleted
+        /*
         e.preventDefault();
         // get our form data out of state
         const { fname, lname, email } = this.state;
@@ -51,6 +64,8 @@ class TodoForm extends React.Component {
             .then((result) => {
                 //access the results here....
             });
+
+         */
     }
 
     render() {
@@ -59,8 +74,9 @@ class TodoForm extends React.Component {
                 <input
                     type="text"
                     name="title"
-                    ref={this.titleRef}
+                    //ref={this.titleRef}
                     required
+                    onChange={this.handleTitleInput}
                     className="form-control"
                     id="title"
                     placeholder="Write your todo item here..."
@@ -68,7 +84,8 @@ class TodoForm extends React.Component {
                 <input
                     type="text"
                     name="tags"
-                    ref={this.tagsRef}
+                    //ref={this.tagsRef}
+                    onChange={this.handleTagsInput}
                     className="form-control"
                     id="tags"
                     placeholder="Add its tags, separated by space"
