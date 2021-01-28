@@ -13,10 +13,13 @@ class TodoApp extends React.Component {
     constructor(props) {
         super(props);
 
-        // hold todo items in state
+        // hold to-do-items in state
         this.state = {
             todoItems: [],
             hideCompletedTodoItems: false,
+
+            filterByTag: false,
+            tagFilterEntry: "",
 
             errorMessage: null
         };
@@ -26,6 +29,8 @@ class TodoApp extends React.Component {
 
         this.toggleCompletedTodoItems = this.toggleCompletedTodoItems.bind(this);
 
+        this.toggleFilteredByTag = this.toggleFilteredByTag.bind(this);
+        this.tagUpdate = this.tagUpdate.bind(this)
 
         // error handling
         this.handleErrors = this.handleErrors.bind(this);
@@ -36,6 +41,18 @@ class TodoApp extends React.Component {
         this.setState({
             hideCompletedTodoItems: !this.state.hideCompletedTodoItems
         });
+    }
+
+    toggleFilteredByTag() {
+        this.setState( {
+            filterByTag: !this.state.filterByTag
+        });
+    }
+
+    tagUpdate(newEntry) {
+        this.setState({
+            tagFilterEntry: newEntry
+        })
     }
 
     componentDidMount() {
@@ -87,7 +104,13 @@ class TodoApp extends React.Component {
                 />
                 <TodoItems
                     toggleCompletedTodoItems={this.toggleCompletedTodoItems}
-                    hideCompletedTodoItems={this.state.hideCompletedTodoItems}
+                    toggleFilteredByTag = {this.toggleFilteredByTag}
+                    tagUpdate = {this.tagUpdate}
+
+                    hideCompletedTodoItems = {this.state.hideCompletedTodoItems}
+                    filterByTag = {this.state.filterByTag}
+                    tagFilterEntry = {this.state.tagFilterEntry}
+
                 >
                     {this.state.todoItems.map(todoItem => (
                         <TodoItem
@@ -95,7 +118,9 @@ class TodoApp extends React.Component {
                             todoItem={todoItem}
                             getTodoItems={this.getTodoItems}
 
-                            hideCompletedTodoItems={this.state.hideCompletedTodoItems}
+                            hideCompletedTodoItems = {this.state.hideCompletedTodoItems}
+                            filterByTag = {this.state.filterByTag}
+                            tagFilterEntry = {this.state.tagFilterEntry}
 
                             // error handling
                             handleErrors={this.handleErrors}

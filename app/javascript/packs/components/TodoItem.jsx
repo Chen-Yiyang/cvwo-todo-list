@@ -20,8 +20,49 @@ class TodoItem extends React.Component {
         // for update
         this.handleChange = this.handleChange.bind(this);
         this.updateTodoItem = this.updateTodoItem.bind(this);
-        this.inputRef = React.createRef();
+        this.titleRef = React.createRef();
         this.completedRef = React.createRef();
+        this.tagsRef = React.createRef();
+
+        this.checkDisplay = this.checkDisplay.bind(this);
+
+    }
+
+    checkDisplay(todoItem) {
+        // d-none for completed ?
+        if (this.state.complete && this.props.hideCompletedTodoItems) {
+            return false;
+        }
+
+        // d-none for filtered by tag?
+        // not filtered
+        if (this.props.tagFilterEntry == "" || !this.props.filterByTag) {
+            return true;
+        }
+
+        if (todoItem.tags == null) {
+            return false;
+        }
+
+        var tagsArr = todoItem.tags.split(" ");
+        var size = tagsArr.length;
+        for (var i = 0; i < size; i++) {
+            var tag = tagsArr[i];
+            console.log(tag + "\\" + todoItem.tags);
+            if (tag === this.props.tagFilterEntry) {
+                return true;
+            }
+        }
+
+        return false
+
+        /*((this.state.complete && this.props.hideCompletedTodoItems)
+            || (this.props.tagFilterEntry != ""
+                && this.props.filterByTag
+                && (todoItem.tags == null || !todoItem.tags.includes(this.props.tagFilterEntry))
+            ))
+
+         */
 
     }
 
@@ -39,8 +80,9 @@ class TodoItem extends React.Component {
         axios
             .put(this.path, {
                 todo_item: {
-                    title: this.inputRef.current.value,
-                    complete: this.completedRef.current.checked
+                    title: this.titleRef.current.value,
+                    complete: this.completedRef.current.checked,
+                    tags: this.tagsRef.current.value
                 }
             })
             .then(response => {})
@@ -61,7 +103,11 @@ class TodoItem extends React.Component {
                 .catch(error => {
                     this.props.handleErrors(error);
                 });
+
+            window.location.reload(false);
         }
+
+
     }
 
     render() {
@@ -69,7 +115,7 @@ class TodoItem extends React.Component {
         return (
             <tr
                 className={
-                    `${ this.state.complete && this.props.hideCompletedTodoItems ? `d-none` : "" } 
+                    `${ !this.checkDisplay(todoItem) ? `d-none` : "" }
                     ${this.state.complete ? "table-light" : ""}`
                 }
             >
@@ -102,14 +148,29 @@ class TodoItem extends React.Component {
                         defaultValue={todoItem.title}
                         disabled={this.state.complete}
 
-                        // update todo details
+                        // update to-do details
                         onChange={this.handleChange}
-                        ref={this.inputRef}
+                        ref={this.titleRef}
 
                         className="form-control"
                         id={`todoItem__title-${todoItem.id}`}
                     />
                 </td>
+
+                <td>
+                    <input
+                        type="text"
+                        defaultValue={todoItem.tags}
+
+                        // update to-do tags
+                        onChange={this.handleChange}
+                        ref={this.tagsRef}
+
+                        /// a bit unsure here
+                        id={`todoItem__tags-${todoItem.id}`}
+                    />
+                </td>
+
                 <td className="text-right">
                     <div className="form-check form-check-inline">
                         <input
@@ -146,6 +207,11 @@ export default TodoItem
 TodoItem.propTypes = {
     todoItem: PropTypes.object.isRequired,
     getTodoItems: PropTypes.func.isRequired,
+
     hideCompletedTodoItems: PropTypes.bool.isRequired,
+
+    tagFilterEntry: PropTypes.string.isRequired,
+    filterByTag: PropTypes.bool.isRequired,
+
     clearErrors: PropTypes.func.isRequired
 }

@@ -10,7 +10,23 @@ class TodoForm extends React.Component {
     constructor(props) {
         super(props)
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.titleRef = React.createRef()
+
+        this.state = {
+            tmpTitle : "",
+            tmpTags : "",
+        }
+    }
+
+    handleTitleInput = (e) => {
+        this.setState( {
+            tmpTitle : e.target.value
+        });
+    }
+
+    handleTagsInput = (e) => {
+        this.setState({
+            tmpTags : e.target.value
+        })
     }
 
     handleSubmit(e) {
@@ -20,8 +36,9 @@ class TodoForm extends React.Component {
         axios
             .post('/api/v1/todo_items', {
                 todo_item: {
-                    title: this.titleRef.current.value,
+                    title: this.state.tmpTitle,
                     complete: false,
+                    tags: this.state.tmpTags
                 },
             })
             .then(response => {
@@ -34,29 +51,48 @@ class TodoForm extends React.Component {
                 this.props.handleErrors(error);
             })
         e.target.reset()
+
+
+
+        // copied, to be deleted
+        /*
+        e.preventDefault();
+        // get our form data out of state
+        const { fname, lname, email } = this.state;
+
+        axios.post('/', { fname, lname, email })
+            .then((result) => {
+                //access the results here....
+            });
+
+         */
     }
 
     render() {
         return (
             <form onSubmit={this.handleSubmit} className="my-3">
-                <div className="form-row">
-                    <div className="form-group col-md-8">
-                        <input
-                            type="text"
-                            name="title"
-                            ref={this.titleRef}
-                            required
-                            className="form-control"
-                            id="title"
-                            placeholder="Write your todo item here..."
-                        />
-                    </div>
-                    <div className="form-group col-md-4">
-                        <button className="btn btn-outline-success btn-block">
-                            Add To Do Item
-                        </button>
-                    </div>
-                </div>
+                <input
+                    type="text"
+                    name="title"
+                    //ref={this.titleRef}
+                    required
+                    onChange={this.handleTitleInput}
+                    className="form-control"
+                    id="title"
+                    placeholder="Write your todo item here..."
+                />
+                <input
+                    type="text"
+                    name="tags"
+                    //ref={this.tagsRef}
+                    onChange={this.handleTagsInput}
+                    className="form-control"
+                    id="tags"
+                    placeholder="Add its tags, separated by space"
+                />
+                <button className="btn btn-outline-success btn-block">
+                    Add To Do Item
+                </button>
             </form>
         )
     }
