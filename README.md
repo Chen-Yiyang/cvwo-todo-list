@@ -1,8 +1,8 @@
 # To-do Application
-- using Rails + React
+- use Rails + React
   - frontend using React (View component of MVC design)
-- follow the tutorial at [here](https://stevepolito.design/blog/rails-react-tutorial/) for a basic Todo-list design.
-- tagging system not implemented yet.
+- follow the tutorial at [here](https://stevepolito.design/blog/rails-react-tutorial/) for a basic Todo-list design
+- support filtering by tags
 
 ## Notes
 - use `Bootstrap` for styling

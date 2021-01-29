@@ -39,23 +39,29 @@ class TodoItems extends React.Component {
                         : `Hide Completed Items `}
                 </button>
 
-                <div className="row">
-                    <input className="tag-search-entry"
-                        type="text"
-                        defaultValue={this.props.tagFilterEntry}
-                        onChange={this.tagUpdate}
-                        ref = {this.inputRef}
-                        placeholder="Target tag(s) for filtering"
-                    />
+                <hr />
 
-                    <button
-                        className="btn btn-outline-primary btn-block mb-3"
-                        onClick={this.tagClick}
-                    >
-                        {this.props.filterByTag
-                            ? `Show All Items`
-                            : `Filter by Tags`}
-                    </button>
+                <div className="row">
+                    <div className="col-sm-9">
+                        <input className="form-control col-form-label col-form-label-sm"
+                            type="text"
+                            defaultValue={this.props.tagFilterEntry}
+                            onChange={this.tagUpdate}
+                            ref = {this.inputRef}
+                            placeholder="Target tag(s) for filtering"
+                        />
+                    </div>
+
+                    <div className="col-sm-3">
+                        <button
+                            className="btn btn-outline-primary btn-block mb-3"
+                            onClick={this.tagClick}
+                        >
+                            {this.props.filterByTag
+                                ? `Show All Items`
+                                : `Filter by Tags`}
+                        </button>
+                    </div>
                 </div>
 
                 <div className="table-responsive">
