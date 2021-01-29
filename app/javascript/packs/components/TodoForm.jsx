@@ -52,20 +52,6 @@ class TodoForm extends React.Component {
             })
         e.target.reset()
 
-
-
-        // copied, to be deleted
-        /*
-        e.preventDefault();
-        // get our form data out of state
-        const { fname, lname, email } = this.state;
-
-        axios.post('/', { fname, lname, email })
-            .then((result) => {
-                //access the results here....
-            });
-
-         */
     }
 
     render() {
