@@ -39,6 +39,8 @@ class TodoItems extends React.Component {
                         : `Hide Completed Items `}
                 </button>
 
+                <hr />
+
                 <div className="row">
                     <div className="col-sm-9">
                         <input className="form-control col-form-label col-form-label-sm"
