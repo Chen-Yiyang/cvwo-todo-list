@@ -85,10 +85,14 @@ class TodoItem extends React.Component {
                     tags: this.tagsRef.current.value
                 }
             })
-            .then(response => {})
+            .then(response => {
+            })
             .catch(error => {
                 console.log(error);
             });
+
+        // to reload the page so as to make filtering works properly
+        window.location.reload(false);
     }, 1000);
 
     handleDestroy() {
