@@ -1,4 +1,3 @@
-// app/javascript/packs/components/TodoItem.jsx
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -44,38 +43,29 @@ class TodoItem extends React.Component {
             return false;
         }
 
-        var tagsArr = todoItem.tags.split(" ");
-        var size = tagsArr.length;
+        const tagsArr = todoItem.tags.split(" ");
+        const size = tagsArr.length;
         for (var i = 0; i < size; i++) {
             var tag = tagsArr[i];
-            console.log(tag + "\\" + todoItem.tags);
+
             if (tag === this.props.tagFilterEntry) {
                 return true;
             }
         }
 
         return false
-
-        /*((this.state.complete && this.props.hideCompletedTodoItems)
-            || (this.props.tagFilterEntry != ""
-                && this.props.filterByTag
-                && (todoItem.tags == null || !todoItem.tags.includes(this.props.tagFilterEntry))
-            ))
-
-         */
-
     }
 
-    handleChange() {
+    handleChange(updateTag) {
         this.setState({
             complete: this.completedRef.current.checked
         });
-        this.updateTodoItem();
+        this.updateTodoItem(updateTag);
     }
 
     // debounce update req.
     // no req sent until no user inputs for 1 sec
-    updateTodoItem = _.debounce(() => {
+    updateTodoItem = _.debounce((updateTag) => {
         setAxiosHeaders();
         axios
             .put(this.path, {
@@ -85,14 +75,16 @@ class TodoItem extends React.Component {
                     tags: this.tagsRef.current.value
                 }
             })
-            .then(response => {
-            })
+            .then(response => {})
             .catch(error => {
                 console.log(error);
             });
 
-        // to reload the page so as to make filtering works properly
-        window.location.reload(false);
+        // to reload the page for tags update so as to make filtering works properly
+        console.log(updateTag);
+        if (updateTag) {
+            window.location.reload(false);
+        }
     }, 1000);
 
     handleDestroy() {
@@ -153,7 +145,7 @@ class TodoItem extends React.Component {
                         disabled={this.state.complete}
 
                         // update to-do details
-                        onChange={this.handleChange}
+                        onChange={() => this.handleChange(false)}
                         ref={this.titleRef}
 
                         className="form-control"
@@ -167,7 +159,7 @@ class TodoItem extends React.Component {
                         defaultValue={todoItem.tags}
 
                         // update to-do tags
-                        onChange={this.handleChange}
+                        onChange={() => this.handleChange(true)}
                         ref={this.tagsRef}
 
                         /// a bit unsure here
@@ -183,7 +175,7 @@ class TodoItem extends React.Component {
                             type="checkbox"
 
                             // update completion
-                            onChange={this.handleChange}
+                            onChange={() => this.handleChange(false)}
                             ref={this.completedRef}
 
                             className="form-check-input"

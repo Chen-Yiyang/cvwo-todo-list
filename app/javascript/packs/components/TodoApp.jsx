@@ -1,4 +1,3 @@
-// app/javascript/packs/components/TodoApp.jsx
 import React from 'react'
 import ReactDOM from 'react-dom'
 
