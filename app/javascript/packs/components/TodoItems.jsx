@@ -1,4 +1,3 @@
-// app/javascript/packs/components/TodoItems.jsx
 import React from 'react'
 import PropTypes from 'prop-types'
 
